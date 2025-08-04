@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico Provador Prime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy:ital,wght@0,400;1,400&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            background: linear-gradient(135deg, #21082a 0%, #2a0a35 50%, #1a0620 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+        }
+        
+        .header h1 {
+            font-family: 'Sorts Mill Goudy', serif;
+            font-size: 2.5rem;
+            color: #d4af37;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .header h2 {
+            font-family: 'Sorts Mill Goudy', serif;
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        
+        .progress-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .progress-text {
+            color: #d4af37;
+            font-weight: 700;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #21082a, #d4af37);
+            border-radius: 0;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+        
+        .quiz-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .question-card {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            border-radius: 5px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            border: 2px solid #d4af37;
+            transform: translateY(0);
+            transition: all 0.5s ease;
+        }
+        
+        .question-card.fade-out {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        
+        .question-card.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .topic-indicator {
+            background: #21082a;
+            color: #d4af37;
+            padding: 8px 20px;
+            border-radius: 3px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        
+        .question-number {
+            color: #d4af37;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .question-text {
+            font-size: 1.4rem;
+            color: #333;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+        
+        .rating-container {
+            margin: 30px 0;
+        }
+        
+        .rating-scale {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .rating-scale input[type="radio"] {
+            display: none;
+        }
+        
+        .rating-scale label {
+            width: 45px;
+            height: 45px;
+            border-radius: 3px;
+            border: 3px solid #21082a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 700;
+            font-size: 1.1rem;
+            background: #fff;
+            color: #21082a;
+        }
+        
+        .rating-scale label:hover {
+            border-color: #d4af37;
+            background: #d4af37;
+            color: #fff;
+            transform: scale(1.1);
+        }
+        
+        .rating-scale input[type="radio"]:checked + label {
+            background: #21082a;
+            border-color: #21082a;
+            color: #d4af37;
+            transform: scale(1.15);
+        }
+        
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #21082a;
+            margin-top: 15px;
+            padding: 0 20px;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            gap: 20px;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #21082a;
+            border: 2px solid #21082a;
+        }
+        
+        .btn-secondary:hover {
+            background: #21082a;
+            color: #fff;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #d4af37, #21082a);
+            color: #fff;
+            border: 2px solid #d4af37;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .results {
+            display: none;
+        }
+        
+        .results-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .results h2 {
+            font-size: 2.5rem;
+            color: #d4af37;
+            margin-bottom: 15px;
+        }
+        
+        .score-summary {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            border-radius: 5px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 2px solid #d4af37;
+        }
+        
+        .total-score {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #800020;
+            margin-bottom: 10px;
+        }
+        
+        .score-level {
+            font-size: 1.5rem;
+            color: #d4af37;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .score-message {
+            font-size: 1.1rem;
+            color: #21082a;
+            line-height: 1.5;
+        }
+        
+        .chart-container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 5px;
+            padding: 30px;
+            border: 2px solid #d4af37;
+        }
+        
+        .detailed-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .result-item {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            border-radius: 5px;
+            padding: 25px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+        }
+        
+        .result-title {
+            color: #21082a;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        
+        .result-score {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #d4af37;
+        }
+        
+        .result-bar {
+            width: 100%;
+            height: 10px;
+            background: #fff;
+            border: 1px solid #21082a;
+            border-radius: 0;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .result-fill {
+            height: 100%;
+            border-radius: 0;
+            transition: width 0.8s ease;
+            background: linear-gradient(90deg, #21082a, #d4af37);
+        }
+        
+        .result-gap {
+            font-size: 0.9rem;
+            color: #21082a;
+        }
+        
+        .cta-section {
+            background: linear-gradient(45deg, #d4af37, #21082a);
+            color: #fff;
+            border-radius: 5px;
+            padding: 40px;
+            margin-top: 40px;
+            text-align: center;
+        }
+        
+        .cta-section h3 {
+            font-family: 'Sorts Mill Goudy', serif;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+        
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .btn-cta {
+            background: #fff;
+            color: #21082a;
+            border: 3px solid #fff;
+            padding: 18px 40px;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-cta:hover {
+            background: transparent;
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .question-text {
+                font-size: 1.2rem;
+            }
+            
+            .rating-scale {
+                gap: 8px;
+            }
+            
+            .rating-scale label {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+                border-radius: 3px;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+            }
+            
+            .total-score {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Diagnóstico Provador Prime</h1>
+            <h2>Descubra exatamente onde você precisa evoluir para se tornar referência no seu provador</h2>
+        </div>
+        
+        <div class="progress-section">
+            <div class="progress-info">
+                <span class="progress-text">Pergunta <span id="currentQuestion">1</span> de 33</span>
+                <span class="progress-text"><span id="progressPercent">3%</span> concluído</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+        
+        <div class="quiz-section" id="quizSection">
+            <div class="question-card" id="questionCard">
+                <div class="topic-indicator" id="topicIndicator">Rotina e Constância no Provador</div>
+                <div class="question-number" id="questionNumber">Pergunta 1/33</div>
+                <div class="question-text" id="questionText">
+                    Com que frequência você consegue manter uma rotina consistente de postagens no provador?
+                </div>
+                
+                <div class="rating-container">
+                    <div class="rating-scale">
+                        <input type="radio" name="currentAnswer" value="0" id="answer0">
+                        <label for="answer0">0</label>
+                        <input type="radio" name="currentAnswer" value="1" id="answer1">
+                        <label for="answer1">1</label>
+                        <input type="radio" name="currentAnswer" value="2" id="answer2">
+                        <label for="answer2">2</label>
+                        <input type="radio" name="currentAnswer" value="3" id="answer3">
+                        <label for="answer3">3</label>
+                        <input type="radio" name="currentAnswer" value="4" id="answer4">
+                        <label for="answer4">4</label>
+                        <input type="radio" name="currentAnswer" value="5" id="answer5">
+                        <label for="answer5">5</label>
+                        <input type="radio" name="currentAnswer" value="6" id="answer6">
+                        <label for="answer6">6</label>
+                        <input type="radio" name="currentAnswer" value="7" id="answer7">
+                        <label for="answer7">7</label>
+                        <input type="radio" name="currentAnswer" value="8" id="answer8">
+                        <label for="answer8">8</label>
+                        <input type="radio" name="currentAnswer" value="9" id="answer9">
+                        <label for="answer9">9</label>
+                        <input type="radio" name="currentAnswer" value="10" id="answer10">
+                        <label for="answer10">10</label>
+                    </div>
+                    <div class="scale-labels">
+                        <span>Nunca consigo</span>
+                        <span>Sempre consigo</span>
+                    </div>
+                </div>
+                
+                <div class="navigation-buttons">
+                    <button class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()" style="visibility: hidden;">Anterior</button>
+                    <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>Próxima</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="results" class="results">
+            <div class="results-header">
+                <h2>Seu Resultado Completo</h2>
+                <div class="score-summary">
+                    <div class="total-score" id="totalScore">0%</div>
+                    <div class="score-level" id="scoreLevel">Calculando...</div>
+                    <div class="score-message" id="scoreMessage"></div>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="radarChart" width="400" height="400"></canvas>
+            </div>
+            
+            <div class="detailed-results" id="detailedResults">
+                <!-- Results will be populated here -->
+            </div>
+            
+            <div class="cta-section">
+                <h3>Pronta para a Transformação?</h3>
+                <p>Seu diagnóstico mostra exatamente onde o <strong>Provador Prime</strong> pode te levar ao próximo nível. Em 3 dias de formação presencial, você vai dominar todas essas competências e se tornar a referência que sempre quis ser.</p>
+                <a href="https://sun.eduzz.com/60EEK1P803" class="btn-cta">Garantir Minha Vaga no Provador Prime</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const topics = [
+            {
+                name: 'rotina',
+                label: 'Rotina e Constância no Provador',
+                color: '#d4af37',
+                questions: [
+                    {
+                        text: 'Com que frequência você consegue manter uma rotina consistente de postagens no provador?',
+                        labels: ['Nunca consigo', 'Sempre consigo']
+                    },
+                    {
+                        text: 'Quanto você domina o planejamento antecipado de conteúdos para o provador?',
+                        labels: ['Não planejo nada', 'Planejo tudo detalhadamente']
+                    },
+                    {
+                        text: 'Como você avalia sua disciplina para manter constância mesmo sem inspiração?',
+                        labels: ['Só posto quando me inspiro', 'Mantenho rotina independente do humor']
+                    }
+                ]
+            },
+            {
+                name: 'estilo',
+                label: 'Descoberta do Próprio Estilo',
+                color: '#21082a',
+                questions: [
+                    {
+                        text: 'Quanto você conhece e consegue definir seu próprio estilo pessoal?',
+                        labels: ['Não sei qual é meu estilo', 'Conheço perfeitamente meu estilo']
+                    },
+                    {
+                        text: 'Como você avalia sua confiança para se posicionar como referência de estilo?',
+                        labels: ['Não me sinto referência', 'Sou referência com confiança']
+                    },
+                    {
+                        text: 'Quanto você consegue transmitir sua personalidade através do provador?',
+                        labels: ['Não mostro personalidade', 'Minha personalidade é clara']
+                    }
+                ]
+            },
+            {
+                name: 'autentico',
+                label: 'Provador Autêntico',
+                color: '#d4af37',
+                questions: [
+                    {
+                        text: 'Como você avalia sua naturalidade e espontaneidade durante as gravações?',
+                        labels: ['Muito artificial/forçada', 'Completamente natural']
+                    },
+                    {
+                        text: 'Quanto você consegue se conectar genuinamente com sua audiência?',
+                        labels: ['Não consigo conectar', 'Conexão genuína sempre']
+                    },
+                    {
+                        text: 'Como você se sente em relação à autenticidade do seu conteúdo no provador?',
+                        labels: ['Sinto que copio outros', 'Sou autêntica em tudo']
+                    }
+                ]
+            },
+            {
+                name: 'produto',
+                label: 'Conhecimento de Produto',
+                color: '#21082a',
+                questions: [
+                    {
+                        text: 'Quanto você domina as informações técnicas das peças que vende (tecidos, modelagem, caimento)?',
+                        labels: ['Não sei informações técnicas', 'Domino todas as informações']
+                    },
+                    {
+                        text: 'Como você avalia sua habilidade de destacar os diferenciais e benefícios dos produtos?',
+                        labels: ['Não sei destacar benefícios', 'Destaco todos os diferenciais']
+                    },
+                    {
+                        text: 'Quanto você conhece sobre tendências de moda e como aplicá-las aos seus produtos?',
+                        labels: ['Não acompanho tendências', 'Domino tendências completamente']
+                    }
+                ]
+            },
+            {
+                name: 'roteiro',
+                label: 'Roteiro Estratégico',
+                color: '#d4af37',
+                questions: [
+                    {
+                        text: 'Quanto você domina a criação de roteiros estruturados para seus vídeos no provador?',
+                        labels: ['Nunca faço roteiro', 'Sempre tenho roteiro estruturado']
+                    },
+                    {
+                        text: 'Como você avalia sua capacidade de planejar conteúdos com objetivos específicos de venda?',
+                        labels: ['Não planejo com objetivo', 'Sempre planejo para vender']
+                    },
+                    {
+                        text: 'Quanto você consegue adaptar roteiros conforme o tipo de produto ou ocasião?',
+                        labels: ['Uso sempre o mesmo formato', 'Adapto perfeitamente cada situação']
+                    }
+                ]
+            },
+            {
+                name: 'pratica',
+                label: 'Provador na Prática',
+                color: '#21082a',
+                questions: [
+                    {
+                        text: 'Quanto você domina as técnicas de iluminação, posicionamento e enquadramento para provador?',
+                        labels: ['Não domino técnicas', 'Domino todas as técnicas']
+                    },
+                    {
+                        text: 'Como você avalia sua desenvoltura e naturalidade durante as gravações?',
+                        labels: ['Muito travada/tensa', 'Completamente desenvolta']
+                    },
+                    {
+                        text: 'Quanto você consegue mostrar as peças de forma atrativa e completa no provador?',
+                        labels: ['Não sei mostrar bem', 'Mostro de forma perfeita']
+                    }
+                ]
+            },
+            {
+                name: 'criatividade',
+                label: 'Criatividade no Dia a Dia',
+                color: '#d4af37',
+                questions: [
+                    {
+                        text: 'Quanto você consegue ser criativa na apresentação dos produtos sem ser repetitiva?',
+                        labels: ['Sempre repito o mesmo', 'Sempre inovando e criativa']
+                    },
+                    {
+                        text: 'Como você avalia sua capacidade de criar conteúdos inovadores e diferenciados?',
+                        labels: ['Não consigo inovar', 'Sempre crio algo diferente']
+                    },
+                    {
+                        text: 'Quanto você consegue se adaptar às tendências de conteúdo das redes sociais?',
+                        labels: ['Não acompanho tendências', 'Sempre atualizada com tudo']
+                    }
+                ]
+            },
+            {
+                name: 'vendas',
+                label: 'Estratégias de Vendas',
+                color: '#21082a',
+                questions: [
+                    {
+                        text: 'Quanto você domina técnicas de vendas específicas para o formato de provador e stories?',
+                        labels: ['Não conheço técnicas', 'Domino todas as técnicas']
+                    },
+                    {
+                        text: 'Como você avalia sua habilidade de criar senso de urgência e desejo nos stories?',
+                        labels: ['Não sei criar urgência', 'Sempre gero desejo e urgência']
+                    },
+                    {
+                        text: 'Qual seu nível de conversão atual de visualizações em vendas efetivas?',
+                        labels: ['Quase não converto', 'Alta conversão sempre']
+                    }
+                ]
+            },
+            {
+                name: 'tecidos',
+                label: 'Curso de Tecidos (Bônus)',
+                color: '#d4af37',
+                questions: [
+                    {
+                        text: 'Quanto você conhece sobre diferentes tipos de tecidos e suas características?',
+                        labels: ['Não conheço tecidos', 'Conheço todos os tipos']
+                    },
+                    {
+                        text: 'Como você avalia sua habilidade de explicar benefícios dos tecidos para as clientes?',
+                        labels: ['Não sei explicar', 'Explico perfeitamente']
+                    },
+                    {
+                        text: 'Quanto você conhece sobre cuidados e manutenção dos diferentes tecidos?',
+                        labels: ['Não sei sobre cuidados', 'Domino todos os cuidados']
+                    }
+                ]
+            },
+            {
+                name: 'comunicacao',
+                label: 'Comunicação Autêntica',
+                color: '#21082a',
+                questions: [
+                    {
+                        text: 'Quanto você consegue se comunicar de forma natural e sem "careta" nas câmeras?',
+                        labels: ['Muito artificial', 'Completamente natural']
+                    },
+                    {
+                        text: 'Como você avalia sua capacidade de transmitir confiança e credibilidade?',
+                        labels: ['Não transmito confiança', 'Muito confiante e credível']
+                    },
+                    {
+                        text: 'Quanto você consegue adaptar sua linguagem ao seu público-alvo?',
+                        labels: ['Não sei adaptar linguagem', 'Adapto perfeitamente']
+                    }
+                ]
+            },
+            {
+                name: 'presenca',
+                label: 'Presença e Desbloqueio',
+                color: '#d4af37',
+                questions: [
+                    {
+                        text: 'Quanto você domina técnicas para melhorar sua postura e presença na câmera?',
+                        labels: ['Não domino técnicas', 'Domino completamente']
+                    },
+                    {
+                        text: 'Como você avalia sua confiança atual para falar em vídeos sem nervosismo?',
+                        labels: ['Muito nervosa sempre', 'Totalmente confiante']
+                    },
+                    {
+                        text: 'Quanto você consegue improvisar e lidar com imprevistos durante gravações?',
+                        labels: ['Não consigo improvisar', 'Improviso com facilidade']
+                    }
+                ]
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let answers = {};
+        let radarChart;
+
+        // Flatten all questions for easier navigation
+        const allQuestions = [];
+        topics.forEach(topic => {
+            topic.questions.forEach((question, index) => {
+                allQuestions.push({
+                    topicName: topic.name,
+                    topicLabel: topic.label,
+                    topicColor: topic.color,
+                    questionIndex: index,
+                    text: question.text,
+                    labels: question.labels,
+                    id: `${topic.name}_${index}`
+                });
+            });
+        });
+
+        function updateProgress() {
+            const progress = ((currentQuestionIndex + 1) / allQuestions.length) * 100;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            document.getElementById('progressPercent').textContent = `${Math.round(progress)}%`;
+        }
+
+        function displayQuestion() {
+            const question = allQuestions[currentQuestionIndex];
+            
+            document.getElementById('topicIndicator').textContent = question.topicLabel;
+            document.getElementById('questionNumber').textContent = `Pergunta ${currentQuestionIndex + 1}/33`;
+            document.getElementById('questionText').textContent = question.text;
+            
+            // Update scale labels
+            const labels = document.querySelectorAll('.scale-labels span');
+            labels[0].textContent = question.labels[0];
+            labels[1].textContent = question.labels[1];
+            
+            // Clear previous selection
+            const radioButtons = document.querySelectorAll('input[name="currentAnswer"]');
+            radioButtons.forEach(radio => radio.checked = false);
+            
+            // Restore previous answer if exists
+            if (answers[question.id] !== undefined) {
+                document.getElementById(`answer${answers[question.id]}`).checked = true;
+            }
+            
+            updateNavigationButtons();
+            updateProgress();
+        }
+
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            // Show/hide previous button
+            if (currentQuestionIndex === 0) {
+                prevBtn.style.visibility = 'hidden';
+            } else {
+                prevBtn.style.visibility = 'visible';
+            }
+            
+            // Check if answer is selected
+            const selectedAnswer = document.querySelector('input[name="currentAnswer"]:checked');
+            nextBtn.disabled = !selectedAnswer;
+            
+            // Change button text for last question
+            if (currentQuestionIndex === allQuestions.length - 1) {
+                nextBtn.textContent = 'Ver Resultado';
+            } else {
+                nextBtn.textContent = 'Próxima';
+            }
+        }
+
+        function saveCurrentAnswer() {
+            const selectedAnswer = document.querySelector('input[name="currentAnswer"]:checked');
+            if (selectedAnswer) {
+                const question = allQuestions[currentQuestionIndex];
+                answers[question.id] = parseInt(selectedAnswer.value);
+            }
+        }
+
+        function nextQuestion() {
+            saveCurrentAnswer();
+            
+            if (currentQuestionIndex < allQuestions.length - 1) {
+                currentQuestionIndex++;
+                
+                // Add fade effect
+                const card = document.getElementById('questionCard');
+                card.classList.add('fade-out');
+                
+                setTimeout(() => {
+                    displayQuestion();
+                    card.classList.remove('fade-out');
+                    card.classList.add('fade-in');
+                    
+                    setTimeout(() => {
+                        card.classList.remove('fade-in');
+                    }, 300);
+                }, 300);
+            } else {
+                // Show results
+                showResults();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                saveCurrentAnswer();
+                currentQuestionIndex--;
+                
+                // Add fade effect
+                const card = document.getElementById('questionCard');
+                card.classList.add('fade-out');
+                
+                setTimeout(() => {
+                    displayQuestion();
+                    card.classList.remove('fade-out');
+                    card.classList.add('fade-in');
+                    
+                    setTimeout(() => {
+                        card.classList.remove('fade-in');
+                    }, 300);
+                }, 300);
+            }
+        }
+
+        function calculateResults() {
+            const topicResults = {};
+            let totalScore = 0;
+            let totalQuestions = 0;
+
+            topics.forEach(topic => {
+                let topicScore = 0;
+                let topicQuestions = 0;
+                
+                topic.questions.forEach((question, index) => {
+                    const questionId = `${topic.name}_${index}`;
+                    if (answers[questionId] !== undefined) {
+                        topicScore += answers[questionId];
+                        topicQuestions++;
+                    }
+                });
+                
+                const averageScore = topicQuestions > 0 ? topicScore / topicQuestions : 0;
+                topicResults[topic.name] = {
+                    score: averageScore,
+                    percentage: (averageScore / 10) * 100,
+                    label: topic.label,
+                    color: topic.color
+                };
+                
+                totalScore += topicScore;
+                totalQuestions += topicQuestions;
+            });
+
+            const overallAverage = totalQuestions > 0 ? totalScore / totalQuestions : 0;
+            const overallPercentage = (overallAverage / 10) * 100;
+
+            return {
+                individual: topicResults,
+                total: totalScore,
+                average: overallAverage,
+                percentage: overallPercentage
+            };
+        }
+
+        function getScoreLevel(percentage) {
+            if (percentage >= 80) return { 
+                level: 'Avançado', 
+                message: 'Você já tem uma base muito sólida! O Provador Prime vai te ajudar a refinar detalhes e se tornar uma verdadeira especialista.' 
+            };
+            if (percentage >= 60) return { 
+                level: 'Intermediário', 
+                message: 'Você tem um bom potencial, mas ainda há gaps importantes que estão limitando seus resultados. O Provador Prime é perfeito para você!' 
+            };
+            if (percentage >= 40) return { 
+                level: 'Iniciante+', 
+                message: 'Há muito espaço para evolução e crescimento. O Provador Prime pode ser transformador para sua carreira!' 
+            };
+            return { 
+                level: 'Iniciante', 
+                message: 'Você está no ponto perfeito para começar uma transformação completa! O Provador Prime vai te dar toda a base que você precisa.' 
+            };
+        }
+
+        function createRadarChart(results) {
+            const ctx = document.getElementById('radarChart').getContext('2d');
+            
+            if (radarChart) {
+                radarChart.destroy();
+            }
+
+            const labels = topics.map(topic => topic.label);
+            const dataPoints = topics.map(topic => results.individual[topic.name].score);
+            const idealPoints = new Array(topics.length).fill(10);
+
+            radarChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Seu Resultado Atual',
+                            data: dataPoints,
+                            borderColor: '#21082a',
+                            backgroundColor: 'rgba(33, 8, 42, 0.2)',
+                            borderWidth: 3,
+                            pointBackgroundColor: '#21082a',
+                            pointBorderColor: '#d4af37',
+                            pointBorderWidth: 3,
+                            pointRadius: 6
+                        },
+                        {
+                            label: 'Resultado Ideal (Meta)',
+                            data: idealPoints,
+                            borderColor: '#d4af37',
+                            backgroundColor: 'rgba(212, 175, 55, 0.1)',
+                            borderWidth: 2,
+                            pointBackgroundColor: '#d4af37',
+                            pointBorderColor: '#21082a',
+                            pointBorderWidth: 2,
+                            pointRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#21082a',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold',
+                                    family: 'Montserrat'
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 10,
+                            ticks: {
+                                stepSize: 2,
+                                color: '#21082a',
+                                backdropColor: 'transparent'
+                            },
+                            grid: {
+                                color: 'rgba(33, 8, 42, 0.2)'
+                            },
+                            angleLines: {
+                                color: 'rgba(33, 8, 42, 0.2)'
+                            },
+                            pointLabels: {
+                                color: '#21082a',
+                                font: {
+                                    size: 11,
+                                    weight: 'bold',
+                                    family: 'Montserrat'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function displayDetailedResults(results) {
+            const container = document.getElementById('detailedResults');
+            container.innerHTML = '';
+
+            topics.forEach(topic => {
+                const result = results.individual[topic.name];
+                const gap = 10 - result.score;
+                const gapPercentage = (gap / 10) * 100;
+
+                const resultItem = document.createElement('div');
+                resultItem.className = 'result-item';
+                resultItem.innerHTML = `
+                    <div class="result-title">${result.label}</div>
+                    <div class="result-score">${result.score.toFixed(1)}/10 (${result.percentage.toFixed(0)}%)</div>
+                    <div class="result-bar">
+                        <div class="result-fill" style="width: ${result.percentage}%;"></div>
+                    </div>
+                    <div class="result-gap">
+                        Potencial de melhoria: ${gap.toFixed(1)} pontos (${gapPercentage.toFixed(0)}%)
+                    </div>
+                `;
+                container.appendChild(resultItem);
+            });
+        }
+
+        function showResults() {
+            const results = calculateResults();
+            const scoreInfo = getScoreLevel(results.percentage);
+
+            // Update score display
+            document.getElementById('totalScore').textContent = `${results.percentage.toFixed(0)}%`;
+            document.getElementById('scoreLevel').textContent = `Nível: ${scoreInfo.level}`;
+            document.getElementById('scoreMessage').textContent = scoreInfo.message;
+
+            // Create radar chart
+            createRadarChart(results);
+
+            // Display detailed results
+            displayDetailedResults(results);
+
+            // Hide quiz and show results
+            document.getElementById('quizSection').style.display = 'none';
+            document.querySelector('.progress-section').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Event listeners
+        document.addEventListener('change', function(e) {
+            if (e.target.name === 'currentAnswer') {
+                updateNavigationButtons();
+            }
+        });
+
+        // Initialize
+        displayQuestion();
+    </script>
+</body>
+</html>
