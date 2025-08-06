@@ -1,0 +1,44 @@
+📁 ARQUIVOS PARA ALTERAR NO GITHUB
+=====================================
+
+🔥 OBRIGATÓRIO (PRINCIPAL):
+---------------------------
+✅ index.html 
+   → Arquivo principal com 20 perguntas e mobile otimizado
+   → SUBSTITUA completamente o arquivo atual
+
+📚 RECOMENDADO (DOCUMENTAÇÃO):  
+-----------------------------
+✅ README.md
+   → Documentação atualizada (20 perguntas, 10 temas)
+
+✅ DEPLOY.md  
+   → Instruções de deploy atualizadas
+
+✅ setup-github.sh
+   → Script com novas configurações
+
+📋 ARQUIVOS NOVOS (OPCIONAIS):
+-----------------------------
+✅ ATUALIZACAO_GITHUB.md
+   → Guia completo das mudanças
+
+✅ RESUMO_FINAL.md  
+   → Resumo das atualizações
+
+✅ ARQUIVOS_GITHUB.txt
+   → Esta lista de arquivos
+
+🔄 AÇÃO MÍNIMA NECESSÁRIA:
+=========================
+SUBSTITUA APENAS: index.html
+
+Isso garante:
+- 20 perguntas funcionando
+- Interface mobile otimizada  
+- CTA direcionando para Eduzz
+- Deploy automático no Netlify
+
+🚀 RESULTADO:
+=============
+Quiz otimizado → Melhor conversão → Mais vendas!
