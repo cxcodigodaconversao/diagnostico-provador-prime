@@ -4,12 +4,12 @@ Uma aplicação web interativa para avaliar o nível atual de competências no p
 
 ## ✨ Funcionalidades
 
-- ✅ **Quiz Interativo** - 33 perguntas personalizadas (3 por tema)
+- ✅ **Quiz Interativo** - 20 perguntas personalizadas otimizadas
 - ✅ **Navegação Fluida** - Uma pergunta por vez com transições suaves
 - ✅ **Roda de Resultado** - Gráfico radar mostrando gaps de competência
 - ✅ **Análise Detalhada** - Pontuação individual por área
-- ✅ **Design Responsivo** - Funciona perfeitamente em mobile
-- ✅ **CTA Integrado** - Direcionamento para inscrição no evento
+- ✅ **Design Mobile-First** - Otimizado especialmente para mobile
+- ✅ **CTA Integrado** - Direcionamento para página de vendas Eduzz
 
 ## 🎨 Design
 
@@ -59,16 +59,15 @@ Uma aplicação web interativa para avaliar o nível atual de competências no p
 ## 📊 Temas Avaliados
 
 1. **Rotina e Constância no Provador**
-2. **Descoberta do Próprio Estilo**
-3. **Provador Autêntico**
-4. **Conhecimento de Produto**
-5. **Roteiro Estratégico**
-6. **Provador na Prática**
-7. **Criatividade no Dia a Dia**
-8. **Estratégias de Vendas**
-9. **Curso de Tecidos (Bônus)**
-10. **Comunicação Autêntica**
-11. **Presença e Desbloqueio**
+2. **Descoberta do Próprio Estilo** 
+3. **Conhecimento de Produto**
+4. **Roteiro Estratégico**
+5. **Provador na Prática**
+6. **Criatividade no Dia a Dia**
+7. **Estratégias de Vendas**
+8. **Curso de Tecidos (Bônus)**
+9. **Comunicação Autêntica**
+10. **Presença e Desbloqueio**
 
 ## 🔧 Estrutura do Projeto
 
@@ -92,10 +91,10 @@ Uma aplicação web interativa para avaliar o nível atual de competências no p
 ## 🎯 Fluxo do Usuário
 
 1. **Início** - Apresentação do diagnóstico
-2. **Quiz** - 33 perguntas (uma por vez)
+2. **Quiz** - 20 perguntas otimizadas (uma por vez)
 3. **Progresso** - Barra de progresso visual
 4. **Resultados** - Pontuação e gráfico radar
-5. **CTA** - Direcionamento para inscrição
+5. **CTA** - Direcionamento para página de vendas
 
 ## 🌟 Personalização
 
