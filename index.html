@@ -390,6 +390,14 @@
             line-height: 1.6;
         }
         
+        .cta-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            margin-top: 30px;
+        }
+        
         .btn-cta {
             background: #fff;
             color: #21082a;
@@ -404,6 +412,8 @@
             display: inline-block;
             text-transform: uppercase;
             letter-spacing: 1px;
+            width: 100%;
+            max-width: 500px;
         }
         
         .btn-cta:hover {
@@ -411,6 +421,43 @@
             color: #fff;
             transform: translateY(-3px);
             box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-cta-secondary {
+            background: transparent;
+            color: #fff;
+            border: 2px solid #fff;
+            padding: 15px 35px;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .btn-cta-secondary:hover {
+            background: #fff;
+            color: #21082a;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-whatsapp {
+            background: #25D366;
+            border-color: #25D366;
+            color: #fff;
+        }
+        
+        .btn-whatsapp:hover {
+            background: #128C7E;
+            border-color: #128C7E;
+            color: #fff;
         }
         
         @media (max-width: 768px) {
@@ -533,10 +580,20 @@
                 margin-bottom: 25px;
             }
             
+            .cta-buttons {
+                gap: 12px;
+            }
+            
             .btn-cta {
                 padding: 15px 30px;
                 font-size: 1rem;
                 letter-spacing: 0.5px;
+            }
+            
+            .btn-cta-secondary {
+                padding: 12px 25px;
+                font-size: 0.9rem;
+                letter-spacing: 0.3px;
             }
         }
         
@@ -672,7 +729,14 @@
             <div class="cta-section">
                 <h3>Pronta para a Transformação?</h3>
                 <p>Seu diagnóstico mostra exatamente onde o <strong>Provador Prime</strong> pode te levar ao próximo nível. Em 3 dias de formação presencial, você vai dominar todas essas competências e se tornar a referência que sempre quis ser.</p>
-                <a href="https://clkdmg.site/pay/provador-prime" class="btn-cta">Garantir Minha Vaga no Provador Prime</a>
+                
+                <div class="cta-buttons">
+                    <a href="https://clkdmg.site/pay/provador-prime" class="btn-cta">Garantir Minha Vaga no Provador Prime</a>
+                    
+                    <a href="https://escolamodacomproposito.com.br/provador-prime-presencial/" class="btn-cta-secondary" target="_blank">Quero Acessar o Site para Conhecer Mais do Provador Prime</a>
+                    
+                    <a href="https://wa.me/5531993335136?text=Fiz%20o%20meu%20diagn%C3%B3stico%20do%20provador%20e%20quero%20mais%20informa%C3%A7%C3%B5es%20do%20Provador%20PRIME" class="btn-cta-secondary btn-whatsapp" target="_blank">Quero Falar com a Equipe da Maiara</a>
+                </div>
             </div>
         </div>
     </div>
