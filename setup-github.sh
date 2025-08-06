@@ -37,15 +37,22 @@ git add .
 
 # Commit inicial
 echo "💾 Fazendo commit inicial..."
-git commit -m "🎯 Diagnóstico Provador Prime - Versão inicial
+git commit -m "🎯 Diagnóstico Provador Prime - Versão Mobile Otimizada
 
 ✨ Funcionalidades:
-- Quiz interativo com 33 perguntas
+- Quiz interativo com 20 perguntas otimizadas
+- Interface mobile-first com botões tocáveis
 - Roda de resultado com gráfico radar
-- Design responsivo (mobile-first)
-- CTA integrado para inscrição
+- Design responsivo otimizado
+- CTA integrado para página Eduzz
 - 3 cores: #21082a, #d4af37, #ffffff
 - Tipografia: Sorts Mill Goudy + Montserrat
+
+📱 Otimizações Mobile:
+- Botões 0-10 em grid responsivo
+- Espaçamento reduzido para mobile
+- Textos otimizados para telas pequenas
+- Performance melhorada
 
 🚀 Deploy:
 - Pronto para Netlify
