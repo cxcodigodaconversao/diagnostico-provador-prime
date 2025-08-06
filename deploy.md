@@ -5,8 +5,8 @@
 - [ ] Todos os arquivos estão no repositório
 - [ ] Link do CTA está correto: `https://sun.eduzz.com/60EEK1P803`
 - [ ] Cores estão corretas: `#21082a`, `#d4af37`, `#ffffff`
-- [ ] 33 perguntas estão configuradas
-- [ ] Responsividade testada
+- [ ] 20 perguntas estão configuradas corretamente
+- [ ] Interface mobile está otimizada
 
 ## 🌐 Deploy no Netlify (RECOMENDADO)
 
