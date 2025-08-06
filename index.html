@@ -105,13 +105,14 @@
             background: rgba(255, 255, 255, 0.95);
             color: #333;
             border-radius: 5px;
-            padding: 40px;
+            padding: 30px 20px;
             text-align: center;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             backdrop-filter: blur(10px);
             border: 2px solid #d4af37;
             transform: translateY(0);
             transition: all 0.5s ease;
+            margin: 0 10px;
         }
         
         .question-card.fade-out {
@@ -127,40 +128,41 @@
         .topic-indicator {
             background: #21082a;
             color: #d4af37;
-            padding: 8px 20px;
+            padding: 6px 15px;
             border-radius: 3px;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: inline-block;
         }
         
         .question-number {
             color: #d4af37;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 700;
             margin-bottom: 15px;
         }
         
         .question-text {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             color: #333;
-            margin-bottom: 30px;
-            line-height: 1.5;
+            margin-bottom: 25px;
+            line-height: 1.4;
             font-weight: 500;
+            padding: 0 10px;
         }
         
         .rating-container {
-            margin: 30px 0;
+            margin: 20px 0;
         }
         
         .rating-scale {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin: 20px 0;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            margin: 15px auto;
+            max-width: 300px;
+            padding: 0 10px;
         }
         
         .rating-scale input[type="radio"] {
@@ -168,61 +170,65 @@
         }
         
         .rating-scale label {
-            width: 45px;
-            height: 45px;
+            width: 100%;
+            height: 40px;
             border-radius: 3px;
-            border: 3px solid #21082a;
+            border: 2px solid #21082a;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1rem;
             background: #fff;
             color: #21082a;
+            min-width: 35px;
         }
         
         .rating-scale label:hover {
             border-color: #d4af37;
             background: #d4af37;
             color: #fff;
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
         
         .rating-scale input[type="radio"]:checked + label {
             background: #21082a;
             border-color: #21082a;
             color: #d4af37;
-            transform: scale(1.15);
+            transform: scale(1.1);
         }
         
         .scale-labels {
             display: flex;
             justify-content: space-between;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #21082a;
-            margin-top: 15px;
-            padding: 0 20px;
+            margin-top: 10px;
+            padding: 0 15px;
         }
         
         .navigation-buttons {
             display: flex;
             justify-content: space-between;
-            margin-top: 40px;
-            gap: 20px;
+            margin-top: 25px;
+            gap: 15px;
+            padding: 0 10px;
         }
         
         .btn {
-            padding: 12px 30px;
+            padding: 12px 25px;
             border: none;
             border-radius: 5px;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            flex: 1;
+            max-width: 150px;
         }
         
         .btn-secondary {
@@ -407,31 +413,169 @@
         }
         
         @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header {
+                padding: 30px 15px;
+                margin-bottom: 30px;
+            }
+            
             .header h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
+                margin-bottom: 15px;
+            }
+            
+            .header h2 {
+                font-size: 1.1rem;
+                margin-bottom: 20px;
+            }
+            
+            .progress-section {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+            
+            .progress-info {
+                margin-bottom: 10px;
+            }
+            
+            .progress-text {
+                font-size: 0.9rem;
+            }
+            
+            .question-card {
+                padding: 25px 15px;
+                margin: 0 5px;
             }
             
             .question-text {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
+                margin-bottom: 20px;
+                padding: 0 5px;
+            }
+            
+            .topic-indicator {
+                font-size: 0.75rem;
+                padding: 5px 12px;
+                margin-bottom: 12px;
+            }
+            
+            .question-number {
+                font-size: 0.85rem;
+                margin-bottom: 12px;
             }
             
             .rating-scale {
-                gap: 8px;
+                grid-template-columns: repeat(6, 1fr);
+                gap: 6px;
+                max-width: 280px;
+                padding: 0 5px;
             }
             
             .rating-scale label {
-                width: 40px;
-                height: 40px;
-                font-size: 1rem;
-                border-radius: 3px;
+                height: 35px;
+                font-size: 0.9rem;
+                min-width: 32px;
+                border-width: 2px;
+            }
+            
+            .scale-labels {
+                font-size: 0.75rem;
+                padding: 0 10px;
+                margin-top: 8px;
             }
             
             .navigation-buttons {
-                flex-direction: column;
+                margin-top: 20px;
+                gap: 10px;
+                padding: 0 5px;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.8rem;
+                letter-spacing: 0.3px;
             }
             
             .total-score {
-                font-size: 3rem;
+                font-size: 2.5rem;
+            }
+            
+            .chart-container {
+                padding: 20px 15px;
+            }
+            
+            .detailed-results {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .result-item {
+                padding: 20px 15px;
+            }
+            
+            .cta-section {
+                padding: 30px 20px;
+            }
+            
+            .cta-section h3 {
+                font-size: 1.6rem;
+                margin-bottom: 15px;
+            }
+            
+            .cta-section p {
+                font-size: 1rem;
+                margin-bottom: 25px;
+            }
+            
+            .btn-cta {
+                padding: 15px 30px;
+                font-size: 1rem;
+                letter-spacing: 0.5px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .header h2 {
+                font-size: 1rem;
+            }
+            
+            .question-card {
+                padding: 20px 12px;
+            }
+            
+            .question-text {
+                font-size: 1rem;
+            }
+            
+            .rating-scale {
+                max-width: 250px;
+                gap: 4px;
+            }
+            
+            .rating-scale label {
+                height: 32px;
+                font-size: 0.85rem;
+                min-width: 28px;
+            }
+            
+            .scale-labels {
+                font-size: 0.7rem;
+            }
+            
+            .btn {
+                padding: 8px 15px;
+                font-size: 0.75rem;
             }
         }
     </style>
@@ -445,8 +589,8 @@
         
         <div class="progress-section">
             <div class="progress-info">
-                <span class="progress-text">Pergunta <span id="currentQuestion">1</span> de 33</span>
-                <span class="progress-text"><span id="progressPercent">3%</span> concluído</span>
+                <span class="progress-text">Pergunta <span id="currentQuestion">1</span> de 20</span>
+                <span class="progress-text"><span id="progressPercent">5%</span> concluído</span>
             </div>
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
@@ -456,7 +600,7 @@
         <div class="quiz-section" id="quizSection">
             <div class="question-card" id="questionCard">
                 <div class="topic-indicator" id="topicIndicator">Rotina e Constância no Provador</div>
-                <div class="question-number" id="questionNumber">Pergunta 1/33</div>
+                <div class="question-number" id="questionNumber">Pergunta 1/20</div>
                 <div class="question-text" id="questionText">
                     Com que frequência você consegue manter uma rotina consistente de postagens no provador?
                 </div>
@@ -535,14 +679,6 @@
                     {
                         text: 'Com que frequência você consegue manter uma rotina consistente de postagens no provador?',
                         labels: ['Nunca consigo', 'Sempre consigo']
-                    },
-                    {
-                        text: 'Quanto você domina o planejamento antecipado de conteúdos para o provador?',
-                        labels: ['Não planejo nada', 'Planejo tudo detalhadamente']
-                    },
-                    {
-                        text: 'Como você avalia sua disciplina para manter constância mesmo sem inspiração?',
-                        labels: ['Só posto quando me inspiro', 'Mantenho rotina independente do humor']
                     }
                 ]
             },
@@ -566,28 +702,9 @@
                 ]
             },
             {
-                name: 'autentico',
-                label: 'Provador Autêntico',
-                color: '#d4af37',
-                questions: [
-                    {
-                        text: 'Como você avalia sua naturalidade e espontaneidade durante as gravações?',
-                        labels: ['Muito artificial/forçada', 'Completamente natural']
-                    },
-                    {
-                        text: 'Quanto você consegue se conectar genuinamente com sua audiência?',
-                        labels: ['Não consigo conectar', 'Conexão genuína sempre']
-                    },
-                    {
-                        text: 'Como você se sente em relação à autenticidade do seu conteúdo no provador?',
-                        labels: ['Sinto que copio outros', 'Sou autêntica em tudo']
-                    }
-                ]
-            },
-            {
                 name: 'produto',
                 label: 'Conhecimento de Produto',
-                color: '#21082a',
+                color: '#d4af37',
                 questions: [
                     {
                         text: 'Quanto você domina as informações técnicas das peças que vende (tecidos, modelagem, caimento)?',
@@ -596,17 +713,13 @@
                     {
                         text: 'Como você avalia sua habilidade de destacar os diferenciais e benefícios dos produtos?',
                         labels: ['Não sei destacar benefícios', 'Destaco todos os diferenciais']
-                    },
-                    {
-                        text: 'Quanto você conhece sobre tendências de moda e como aplicá-las aos seus produtos?',
-                        labels: ['Não acompanho tendências', 'Domino tendências completamente']
                     }
                 ]
             },
             {
                 name: 'roteiro',
                 label: 'Roteiro Estratégico',
-                color: '#d4af37',
+                color: '#21082a',
                 questions: [
                     {
                         text: 'Quanto você domina a criação de roteiros estruturados para seus vídeos no provador?',
@@ -625,26 +738,18 @@
             {
                 name: 'pratica',
                 label: 'Provador na Prática',
-                color: '#21082a',
+                color: '#d4af37',
                 questions: [
                     {
                         text: 'Quanto você domina as técnicas de iluminação, posicionamento e enquadramento para provador?',
                         labels: ['Não domino técnicas', 'Domino todas as técnicas']
-                    },
-                    {
-                        text: 'Como você avalia sua desenvoltura e naturalidade durante as gravações?',
-                        labels: ['Muito travada/tensa', 'Completamente desenvolta']
-                    },
-                    {
-                        text: 'Quanto você consegue mostrar as peças de forma atrativa e completa no provador?',
-                        labels: ['Não sei mostrar bem', 'Mostro de forma perfeita']
                     }
                 ]
             },
             {
                 name: 'criatividade',
                 label: 'Criatividade no Dia a Dia',
-                color: '#d4af37',
+                color: '#21082a',
                 questions: [
                     {
                         text: 'Quanto você consegue ser criativa na apresentação dos produtos sem ser repetitiva?',
@@ -653,17 +758,13 @@
                     {
                         text: 'Como você avalia sua capacidade de criar conteúdos inovadores e diferenciados?',
                         labels: ['Não consigo inovar', 'Sempre crio algo diferente']
-                    },
-                    {
-                        text: 'Quanto você consegue se adaptar às tendências de conteúdo das redes sociais?',
-                        labels: ['Não acompanho tendências', 'Sempre atualizada com tudo']
                     }
                 ]
             },
             {
                 name: 'vendas',
                 label: 'Estratégias de Vendas',
-                color: '#21082a',
+                color: '#d4af37',
                 questions: [
                     {
                         text: 'Quanto você domina técnicas de vendas específicas para o formato de provador e stories?',
@@ -682,7 +783,7 @@
             {
                 name: 'tecidos',
                 label: 'Curso de Tecidos (Bônus)',
-                color: '#d4af37',
+                color: '#21082a',
                 questions: [
                     {
                         text: 'Quanto você conhece sobre diferentes tipos de tecidos e suas características?',
@@ -691,22 +792,14 @@
                     {
                         text: 'Como você avalia sua habilidade de explicar benefícios dos tecidos para as clientes?',
                         labels: ['Não sei explicar', 'Explico perfeitamente']
-                    },
-                    {
-                        text: 'Quanto você conhece sobre cuidados e manutenção dos diferentes tecidos?',
-                        labels: ['Não sei sobre cuidados', 'Domino todos os cuidados']
                     }
                 ]
             },
             {
                 name: 'comunicacao',
                 label: 'Comunicação Autêntica',
-                color: '#21082a',
+                color: '#d4af37',
                 questions: [
-                    {
-                        text: 'Quanto você consegue se comunicar de forma natural e sem "careta" nas câmeras?',
-                        labels: ['Muito artificial', 'Completamente natural']
-                    },
                     {
                         text: 'Como você avalia sua capacidade de transmitir confiança e credibilidade?',
                         labels: ['Não transmito confiança', 'Muito confiante e credível']
@@ -720,16 +813,8 @@
             {
                 name: 'presenca',
                 label: 'Presença e Desbloqueio',
-                color: '#d4af37',
+                color: '#21082a',
                 questions: [
-                    {
-                        text: 'Quanto você domina técnicas para melhorar sua postura e presença na câmera?',
-                        labels: ['Não domino técnicas', 'Domino completamente']
-                    },
-                    {
-                        text: 'Como você avalia sua confiança atual para falar em vídeos sem nervosismo?',
-                        labels: ['Muito nervosa sempre', 'Totalmente confiante']
-                    },
                     {
                         text: 'Quanto você consegue improvisar e lidar com imprevistos durante gravações?',
                         labels: ['Não consigo improvisar', 'Improviso com facilidade']
@@ -769,7 +854,7 @@
             const question = allQuestions[currentQuestionIndex];
             
             document.getElementById('topicIndicator').textContent = question.topicLabel;
-            document.getElementById('questionNumber').textContent = `Pergunta ${currentQuestionIndex + 1}/33`;
+            document.getElementById('questionNumber').textContent = `Pergunta ${currentQuestionIndex + 1}/20`;
             document.getElementById('questionText').textContent = question.text;
             
             // Update scale labels
