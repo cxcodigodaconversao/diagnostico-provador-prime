@@ -319,8 +319,8 @@
         
         .detailed-results {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
             margin-top: 40px;
         }
         
@@ -353,7 +353,7 @@
             border: 1px solid #21082a;
             border-radius: 0;
             overflow: hidden;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         
         .result-fill {
@@ -366,6 +366,38 @@
         .result-gap {
             font-size: 0.9rem;
             color: #21082a;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .result-feedback {
+            background: rgba(33, 8, 42, 0.05);
+            border-left: 4px solid #d4af37;
+            padding: 15px;
+            border-radius: 0 5px 5px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #21082a;
+        }
+        
+        .result-feedback.excellent {
+            border-left-color: #28a745;
+            background: rgba(40, 167, 69, 0.05);
+        }
+        
+        .result-feedback.good {
+            border-left-color: #d4af37;
+            background: rgba(212, 175, 55, 0.05);
+        }
+        
+        .result-feedback.improvement {
+            border-left-color: #ffc107;
+            background: rgba(255, 193, 7, 0.05);
+        }
+        
+        .result-feedback.urgent {
+            border-left-color: #dc3545;
+            background: rgba(220, 53, 69, 0.05);
         }
         
         .cta-section {
@@ -559,11 +591,16 @@
             
             .detailed-results {
                 grid-template-columns: 1fr;
-                gap: 15px;
+                gap: 20px;
             }
             
             .result-item {
                 padding: 20px 15px;
+            }
+            
+            .result-feedback {
+                padding: 12px;
+                font-size: 0.9rem;
             }
             
             .cta-section {
@@ -641,6 +678,16 @@
             .chart-container {
                 padding: 20px 10px;
                 margin: 20px auto;
+            }
+            
+            .detailed-results {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .result-feedback {
+                padding: 10px;
+                font-size: 0.85rem;
             }
         }
     </style>
@@ -914,6 +961,86 @@
                 });
             });
         });
+
+        function getTopicFeedback(topicName, score, percentage) {
+            const feedbacks = {
+                'rotina': {
+                    excellent: "🎉 Parabéns! Você já domina a constância no provador. Continue refinando seu planejamento e consider criar templates de conteúdo para otimizar ainda mais sua produtividade.",
+                    good: "👏 Você tem uma boa base de rotina! Para evoluir, crie um calendário de conteúdos semanal e defina horários fixos para gravar. A consistência é o que separa profissionais de amadoras.",
+                    improvement: "📈 Sua rotina precisa de estrutura. Comece definindo 3 dias fixos na semana para gravar provadores. Prepare looks antecipadamente e use um planejador mensal para se organizar.",
+                    urgent: "🚨 A falta de rotina está limitando seus resultados. Inicie com 1 provador por semana, no mesmo dia e horário. Crie lembretes no celular e prepare os looks com antecedência. A constância é fundamental para criar autoridade."
+                },
+                'estilo': {
+                    excellent: "✨ Você irradia personalidade e estilo próprio! Continue explorando novas tendências que conversem com sua essência e inspire outras mulheres a encontrarem seu próprio estilo.",
+                    good: "🌟 Seu estilo está se definindo bem! Para fortalecer sua identidade visual, crie um mood board das suas referências e analise o que mais funciona no seu corpo e personalidade.",
+                    improvement: "🎨 É hora de descobrir sua identidade única! Faça um teste de coloração pessoal, analise quais peças você mais recebe elogios e comece a definir 3 palavras que representam seu estilo.",
+                    urgent: "🔍 Descobrir seu estilo é urgente para se posicionar como referência. Comece analisando celebridades que você admira, tire fotos dos seus looks favoritos e identifique padrões. Sua autenticidade é seu diferencial."
+                },
+                'produto': {
+                    excellent: "🏆 Você é uma especialista em produtos! Use esse conhecimento para criar conteúdos educativos sobre tecidos e modelagem, isso aumentará ainda mais sua credibilidade.",
+                    good: "📚 Seu conhecimento é sólido! Para se destacar mais, estude sobre novas tecnologias em tecidos e tendências de modelagem para sempre estar um passo à frente.",
+                    improvement: "🎓 Precisa aprofundar seu conhecimento técnico. Comece estudando os tecidos que mais vende: composição, caimento, cuidados. Clientes confiam em quem entende do que vende.",
+                    urgent: "⚠️ Conhecer seus produtos é fundamental para vender bem. Dedique 30 minutos por semana estudando tecidos, modelagem e benefícios das peças. Sua credibilidade depende disso."
+                },
+                'roteiro': {
+                    excellent: "🎬 Seus roteiros são estratégicos e eficazes! Considere criar templates para diferentes ocasiões e compartilhar dicas de roteiro para outras lojistas.",
+                    good: "📝 Você planeja bem seus conteúdos! Para evoluir, crie roteiros específicos para cada tipo de peça e ocasião, sempre com objetivo de vendas claro.",
+                    improvement: "📋 Seus roteiros precisam de mais estrutura. Comece criando um esquema básico: apresentação da peça, como usar, benefícios e call to action. A estratégia aumenta a conversão.",
+                    urgent: "🎯 Roteiros estratégicos são essenciais para vender mais. Comece anotando 3 pontos antes de gravar: o que mostrar, como apresentar e qual ação esperar da cliente. Planejamento gera resultados."
+                },
+                'pratica': {
+                    excellent: "📸 Você domina a técnica do provador! Sua qualidade visual é excelente. Continue explorando novos ângulos e técnicas para se manter sempre inovando.",
+                    good: "💡 Sua técnica está boa! Para se destacar, experimente diferentes iluminações e posicionamentos de câmera para cada tipo de peça e momento do dia.",
+                    improvement: "🔧 Suas técnicas precisam melhorar. Foque em iluminação natural, posicione a câmera na altura do peito e pratique diferentes ângulos para mostrar as peças completamente.",
+                    urgent: "📱 A qualidade técnica dos seus provadores está afetando suas vendas. Comece com o básico: luz natural, câmera estável e ângulos que mostrem a peça inteira. Qualidade técnica transmite profissionalismo."
+                },
+                'criatividade': {
+                    excellent: "🎨 Sua criatividade é inspiradora! Continue inovando e não tenha medo de testar formatos novos. Você tem potencial para viralizar e se tornar referência.",
+                    good: "🌈 Você tem boas ideias criativas! Para evoluir, acompanhe trends do TikTok e Instagram, e adapte para sua realidade de forma autêntica.",
+                    improvement: "💡 Sua criatividade pode ser desenvolvida. Comece seguindo contas de referência em moda, teste uma tendência nova por semana e não tenha medo de errar.",
+                    urgent: "🚀 A criatividade é o que diferencia no mercado. Comece pequeno: teste um filtro novo, mude o ângulo da câmera ou crie uma música personalizada. Inovação atrai atenção."
+                },
+                'vendas': {
+                    excellent: "💰 Você é uma vendedora nata! Seus provadores convertem muito bem. Continue refinando suas técnicas e considere ensinar outras lojistas.",
+                    good: "📈 Suas técnicas de venda são eficazes! Para aumentar ainda mais a conversão, teste diferentes calls to action e analise quais geram mais resultados.",
+                    improvement: "🎯 Suas vendas podem melhorar muito. Foque em criar urgência (peças limitadas), mostre benefícios claros e sempre termine com uma pergunta que gere ação.",
+                    urgent: "🚨 Suas técnicas de venda precisam de atenção urgente. Comece com o básico: mostre a peça, fale dos benefícios, crie escassez (poucas peças) e peça a venda diretamente."
+                },
+                'tecidos': {
+                    excellent: "🧵 Você é uma especialista em tecidos! Use esse conhecimento diferenciado para educar suas clientes e se posicionar como consultora de moda.",
+                    good: "📖 Seu conhecimento sobre tecidos é bom! Continue estudando sobre novos materiais e tecnologias têxteis para se manter atualizada.",
+                    improvement: "🔬 Precisa estudar mais sobre tecidos. Comece aprendendo sobre os principais: algodão, poliéster, viscose. Saber explicar benefícios e cuidados aumenta a confiança da cliente.",
+                    urgent: "⚗️ Conhecer tecidos é diferencial competitivo. Dedique tempo para estudar composições, caimentos e cuidados. Clientes valorizam quem ensina sobre o produto."
+                },
+                'comunicacao': {
+                    excellent: "🗣️ Sua comunicação é autêntica e cativante! Continue sendo você mesma, essa naturalidade é seu maior trunfo para conectar com as clientes.",
+                    good: "💬 Você se comunica bem! Para evoluir, pratique falar diretamente para a câmera como se fosse uma amiga e ajuste sua linguagem para seu público-alvo.",
+                    improvement: "🎙️ Sua comunicação pode melhorar. Pratique falar mais pausadamente, sorria mais e imagine que está conversando com sua melhor amiga. Autenticidade conecta.",
+                    urgent: "📢 A comunicação é fundamental para vender. Comece falando mais devagar, use palavras simples e sorria. Pratique na frente do espelho antes de gravar. Confiança se desenvolve com prática."
+                },
+                'presenca': {
+                    excellent: "⭐ Sua presença é magnética! Você tem o dom natural da comunicação. Continue desenvolvendo essa habilidade que é seu maior diferencial competitivo.",
+                    good: "✨ Você tem boa presença de câmera! Para se destacar ainda mais, trabalhe sua postura e pratique exercícios de respiração antes de gravar.",
+                    improvement: "🎭 Sua presença pode se desenvolver muito. Pratique exercícios de respiração, trabalhe sua postura e grave pequenos vídeos diariamente para ganhar naturalidade.",
+                    urgent: "🎪 Desenvolver presença é essencial para o provador. Comece com exercícios simples: respire fundo antes de gravar, mantenha postura ereta e pratique falar olhando para a câmera. A confiança vem com a prática."
+                }
+            };
+
+            const topicFeedback = feedbacks[topicName];
+            if (!topicFeedback) return "Continue desenvolvendo suas habilidades!";
+
+            if (percentage >= 80) return topicFeedback.excellent;
+            if (percentage >= 60) return topicFeedback.good;
+            if (percentage >= 40) return topicFeedback.improvement;
+            return topicFeedback.urgent;
+        }
+
+        function getFeedbackClass(percentage) {
+            if (percentage >= 80) return 'excellent';
+            if (percentage >= 60) return 'good';
+            if (percentage >= 40) return 'improvement';
+            return 'urgent';
+        }
 
         function updateProgress() {
             const progress = ((currentQuestionIndex + 1) / allQuestions.length) * 100;
@@ -1196,6 +1323,8 @@
                 const result = results.individual[topic.name];
                 const gap = 10 - result.score;
                 const gapPercentage = (gap / 10) * 100;
+                const feedback = getTopicFeedback(topic.name, result.score, result.percentage);
+                const feedbackClass = getFeedbackClass(result.percentage);
 
                 const resultItem = document.createElement('div');
                 resultItem.className = 'result-item';
@@ -1207,6 +1336,9 @@
                     </div>
                     <div class="result-gap">
                         Potencial de melhoria: ${gap.toFixed(1)} pontos (${gapPercentage.toFixed(0)}%)
+                    </div>
+                    <div class="result-feedback ${feedbackClass}">
+                        ${feedback}
                     </div>
                 `;
                 container.appendChild(resultItem);
